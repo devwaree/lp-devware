@@ -1,11 +1,28 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useRef} from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
 import $ from "jquery";
+import jquery from 'jquery';
 
 
 function Home() {
-  
+  const modal =  useRef(null)
+
+  const showModal = () => {
+    modal.current.style.display = 'block'
+    modal.current.style.opacity = 1
+    modal.current.style.background  = 'rgba(0, 0, 0, 0.5)'
+    var dialog = modal.current.children[0]
+    dialog.style.transform = 'translate(0,0)'
+    console.log("modal.current.children",dialog.style);
+  }
+
+  const closeModal = () => {
+    modal.current.style.display = 'none'
+    modal.current.style.opacity = 0
+  }
+
+
   useEffect(() => {
  
     (function() {
@@ -72,6 +89,10 @@ $("#message-box").on('input', function() {
 
 //Escondendo ícone de Wpp em seções full-screen
 $( 'document' ).ready(function() {
+  // $('.modal-form-btn').on('click', function(){
+  //   jQuery.noConflict();
+  //   $('#modal-form').modal('show')
+  // })
 let div_sobre_position = $('#sobre').offset().top;
 let div_contato_position = $('#contato').offset().top;
 let div_footer_position = $('#footer').offset().top;
@@ -481,7 +502,7 @@ else {
             </div>
                 <div className="row section-form-row align-items-center">
                     <div className="col-12 col-lg-4 offset-lg-4 text-center mt-4">
-                        <button className="modal-form-btn" data-toggle="modal" data-target="#modal-form">Sim, vamos fazer isto!</button>
+                        <button onClick={showModal} className="modal-form-btn" data-toggle="modal" data-target="#modal-form">Sim, vamos fazer isto!</button>
                     </div>
                 </div>
         </div>
@@ -502,11 +523,11 @@ else {
     </section>
 
 {/* <!-- Modal do Formulário --> */}
-    <div className="modal fade" id="modal-form" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+    <div className="modal fade" ref={modal} id="modal-form" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
         <div className="modal-dialog" role="document">
             <div className="modal-content">
                 <div className="modal-body p-5">
-                    <span className="close-icon" data-dismiss="modal">x</span>
+                    <span className="close-icon" onClick={closeModal} data-dismiss="modal">x</span>
                     <h1 className="modal-form-title text-center">Faça a avaliação <b>gratuita</b>!</h1>
                     <form action="#" method="POST" className="needs-validation mt-5 mb-4" noValidate>
                         <input value="" type="hidden" />
